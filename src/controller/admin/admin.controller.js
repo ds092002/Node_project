@@ -57,7 +57,7 @@ exports.getAllAdmin = async(req, res) => {
 
 exports.getAdmin = async(req, res) => {
     try {
-        let admin = userService.getUserById(req.query.adminId);
+        let admin = await userService.getUserById(req.query.adminId);
         console.log(admin);
         if (!admin) {
             return res.status(404).json({ message: "Admin not found." });

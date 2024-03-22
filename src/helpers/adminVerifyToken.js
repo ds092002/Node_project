@@ -11,7 +11,7 @@ exports.adminVerifyToken = async(req, res, next) => {
             let {adminId} = jwt.verify(token, 'Admin');
             console.log(adminId);
             let admin = await User.findById(adminId);
-            console.log(user);
+            console.log(admin);
             if (admin) {
                 req.admin = admin;
                 next();
