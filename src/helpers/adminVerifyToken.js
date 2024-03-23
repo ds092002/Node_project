@@ -1,12 +1,16 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/user.model');
-const { token } = require('morgan');
 
 exports.adminVerifyToken = async(req, res, next) => {
     try {
         const authorization = req.headers['authorization'];
         if (authorization === undefined) {
             return res.json({ message: `Invalid Authorization ${console.error()}`});
+        }
+        let token = authorization.split(" ")[1];
+        console.log(token);
+        if (token === undefined) {
+            return res.status(401).json({ message: `Unauthorize ${console.error()}`})
         }else{
             let {adminId} = jwt.verify(token, 'Admin');
             console.log(adminId);
