@@ -8,9 +8,18 @@ module.exports = class CartServices {
             return error.message;
         }
     };
-    // async getAllCart() {
-
-    // };
+    async getAllCart(query) {
+        try {
+            let find = [
+                { $match: { isDelete: false}}
+            ];
+            let result = await Cart.aggregate(find);
+            return result;
+        } catch (error) {
+            console.log(error);
+            return error.message;
+        }
+    };
     async getCart(body) {
         try {
             return await Cart.findOne(body);
