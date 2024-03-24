@@ -60,6 +60,9 @@ exports.getAllUser = async(req, res) => {
 exports.getUser = async(req, res) => {
     try {
         let user = await userService.getUserById(req.user._id);
+        if(!user){
+            return res.status(404).json({ message: `User Not Found....Please Try Again`});
+        }
         console.log(user);
     } catch (error) {
         console.log(error);
@@ -130,5 +133,5 @@ exports.updatePassword = async(req, res) => {
         console.log(error);
         res.status(500).json({ message: `Internal Server Error..${console.error()}`});
     }
-}
+};
 

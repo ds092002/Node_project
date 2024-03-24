@@ -43,5 +43,13 @@ module.exports = class CartServices {
             console.log(error);
             return error.message;
         }
+    };
+    async updateMany (user, body) {
+        try {
+            return await Cart.updateMany({ user: user}, { $set: body}, { new: true});
+        } catch (error) {
+            console.log(error);
+            return error.message;
+        }
     }
 }

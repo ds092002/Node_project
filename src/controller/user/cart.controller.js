@@ -86,4 +86,4 @@ exports.deleteCart = async (req, res) => {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});
     }
-}
+};
