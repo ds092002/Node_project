@@ -59,7 +59,7 @@ exports.getAllUser = async(req, res) => {
 
 exports.getUser = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.user._id);
+        let user = await userService.getUserById(req.query.userId);
         if(!user){
             return res.status(404).json({ message: `User Not Found....Please Try Again`});
         }
@@ -72,7 +72,7 @@ exports.getUser = async(req, res) => {
 
 exports.updateUser = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.user._id);
+        let user = await userService.getUserById(req.query.userId);
         if(!user){
             return res.status(404).json({ message: `User Not Found....Please Try Again`});
         }
@@ -86,7 +86,7 @@ exports.updateUser = async(req, res) => {
 
 exports.deleteUser = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.user._id);
+        let user = await userService.getUserById(req.query.userId);
         if(!user){
             return res.status(404).json({message: `User Not Found...Please Try Again`})
         }
@@ -100,7 +100,7 @@ exports.deleteUser = async(req, res) => {
 
 exports.updatePassword = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.user._id);
+        let user = await userService.getUserById(req.query.userId);
         if(!user){
             return res.json({ message: `User Not Found...Please try Again...`});
         }

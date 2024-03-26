@@ -10,7 +10,7 @@ const {
     deleteProduct
 } = require('../../controller/admin/product.controller');
 
-productRoutes.post('/add-Product', adminVerifyToken, addNewProduct);
+productRoutes.post('/add-Product', addNewProduct);
 productRoutes.get('/get-All-Products', adminVerifyToken, getAllProducts);
 productRoutes.get('/get-Product', adminVerifyToken, getProduct);
 productRoutes.put('/update-Product', adminVerifyToken, updateProduct);

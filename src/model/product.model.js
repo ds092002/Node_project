@@ -11,9 +11,9 @@ const productSchema = mongoose.Schema({
     price: {
         type: Number
     },
-    category: {
+    category:[{
         type: String
-    },
+    }],
     isDelete: {
         type: Boolean,
         default: false
