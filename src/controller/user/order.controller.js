@@ -10,7 +10,7 @@ exports.addNewOrder = async(req, res) => {
             res.status(404).json({ message: `Cart Not Found..Plase Try Again...`});
         }
         console.log(cartItems);
-        let orderItems = cartItems.map(item => ({
+        let orderItems = await cartItems.map(item => ({
             product: item.cartItem._id,
             quantity: item.quantity,
             price: item.cartItem.price
