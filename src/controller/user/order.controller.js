@@ -5,7 +5,7 @@ const cartService = new CartServices();
 
 exports.addNewOrder = async(req, res) => {
     try {
-        let cartItems = await cartService.getCart({ user: req.user._id, isDelete: false}).populate('cartItem');
+        let cartItems = await cartService.getCart({ user: req.user._id, isDelete: false});
         if (!cartItems) {
             res.status(404).json({ message: `Cart Not Found..Plase Try Again...`});
         }
@@ -33,7 +33,7 @@ exports.addNewOrder = async(req, res) => {
 
 exports.getAllOrders = async (req, res) => {
     try {
-        let orders = await orderServiece.getAllOrders({ user: req.user._id,  isDelete: false }).populate('user').populate('items');;
+        let orders = await orderServiece.getAllOrders({ user: req.user._id,  isDelete: false });
         console.log(orders);
         if (!orders) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
@@ -47,7 +47,7 @@ exports.getAllOrders = async (req, res) => {
 
 exports.getOrder = async (req, res) => {
     try {
-        let order = await orderServiece.getOrderById({_id: req.query.orderId, isDelete: false}).populate('user').populate('items');
+        let order = await orderServiece.getOrderById({_id: req.query.orderId, isDelete: false});
         console.log(order);
         if (!order) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
@@ -61,7 +61,7 @@ exports.getOrder = async (req, res) => {
 
 exports.deleteOrder = async (req, res) => {
     try {
-        let order = await orderServiece.getOrder({_id: req.query.orderId}).populate('user').populate('items');
+        let order = await orderServiece.getOrder({_id: req.query.orderId});
         console.log(order);
         if (!order) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});

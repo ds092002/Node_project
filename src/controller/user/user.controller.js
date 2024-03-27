@@ -19,7 +19,7 @@ exports.registerUser = async(req, res) => {
         res.status(201).json({ user: user, message: `New User Is Added SuccesFully....👍🏻`});
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: `Internal Server Error...${console.error()}`})
+        res.status(500).json({ message: `Internal Server Error...${console.error()}`});
     }
 };
 
