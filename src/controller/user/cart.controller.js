@@ -15,6 +15,7 @@ exports.addToCart = async (req, res) => {
             user: req.user._id,
             ...req.body
         });
+        return res.status(201).json({cart, message: `New Item is Added To the Cart..`});
     } catch (error) {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});
@@ -26,7 +27,7 @@ exports.getAllCarts = async (req, res) => {
         let carts = await cartService.getAllCart({
             user: req.user._id,
             isDelete: false
-        }).populate('user').populate('cartItem');
+        });
         // calculate total price for each items 
         carts = carts.map((item )=>{
             let quantity = item.cartItem.quantity;
@@ -49,7 +50,7 @@ exports.getCart = async (req, res) => {
         let cart = await cartService.getCartById({
             _id: req.query.cartId,
             isDelete: false
-        }).populate('user').populate('cartItem');   
+        });   
         if(!cart){
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
@@ -66,7 +67,7 @@ exports.updateCart = async (req, res) => {
         if (!cart) {
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
-        cart = await cartService.updateCart(cart._id, {$set: { ...req.body}}, {new: true}).populate('user').populate('cartItem');
+        cart = await cartService.updateCart(cart._id, {$set: { ...req.body}}, {new: true});
         res.status(200).json({ cart, message: `Cart Item Updated SuccessFully.....`});
     } catch (error) {
         console.log(error);

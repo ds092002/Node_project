@@ -22,7 +22,7 @@ module.exports = class CartServices {
     };
     async getCart(body) {
         try {
-            return await Cart.findOne(body);
+            return await Cart.findOne(body).populate('user').populate('cartItem');
         } catch (error) {
             console.log(error);
             return error.message;
@@ -30,7 +30,7 @@ module.exports = class CartServices {
     };
     async getCartById(id) {
         try {
-            return await Cart.findById(id);
+            return await Cart.findById(id).populate('user').populate('cartItem')        ;
         } catch (error) {
             console.log(error);
             return error.message;
@@ -38,7 +38,7 @@ module.exports = class CartServices {
     };
     async updateCart(id, body) {
         try {
-            return await Cart.findByIdAndUpdate(id, {$set: body}, {new: true});
+            return await Cart.findByIdAndUpdate(id, {$set: body}, {new: true}).populate('user').populate('cartItem');
         } catch (error) {
             console.log(error);
             return error.message;
