@@ -6,12 +6,16 @@ exports.addNewProduct = async (req, res) => {
         let product = await productServiece.getProduct({ title: req.body.title, isDelete: false });
         if (product) {
             res.status(400).json({ message: `Product Is Already Exist..`});
+        };
+        if(req.file){
+            console.log(req.file);
+            productImage=req.file.path.replace(/\\/g, "/");
         }
         product = await productServiece.addNewProduct({ ...req.body });
         res.status(201).json({product, message: `Product  Has Been Added Successfully.`});
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: `Internal Server Error..`});
+        res.status(500).json({message: `Internal Server Error..${console.error()}`});
     }
 };
 

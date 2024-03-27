@@ -3,7 +3,7 @@ const cartService = new CartServices();
 
 exports.getAllCart = async (req, res) => {
     try {
-        let carts = await cartService.getAllCart({ isDelete: false}).populate('user').populate('cartItem');
+        let carts = await cartService.getAllCart({ isDelete: false});
         res.status(200).json(carts);
     } catch (error) {
         console.log(error);

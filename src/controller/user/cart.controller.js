@@ -67,8 +67,8 @@ exports.updateCart = async (req, res) => {
         if (!cart) {
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
-        cart = await cartService.updateCart(cart._id, {$set: { ...req.body}}, {new: true});
-        res.status(200).json({ cart, message: `Cart Item Updated SuccessFully.....`});
+        cart = await cartService.updateCart(cart._id, {$set: { ...req.body}});
+        res.status(202).json({ cart, message: `Cart Item Updated SuccessFully.....`});
     } catch (error) {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});
@@ -81,7 +81,7 @@ exports.deleteCart = async (req, res) => {
         if(!cart){
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
-        cart = await cartService.updateCart(cart._id ,{isDelete : true});
+        cart = await cartService.updateCart(cart._id,req.body ,{isDelete : true});
         res.status(200).json({message:`Cart Deleted Successfully......`}); 
     } catch (error) {
         console.log(error);

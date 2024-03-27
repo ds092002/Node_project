@@ -38,7 +38,7 @@ module.exports = class CartServices {
     };
     async updateCart(id, body) {
         try {
-            return await Cart.findByIdAndUpdate(id, {$set: body}, {new: true}).populate('user').populate('cartItem');
+            return await Cart.findByIdAndUpdate(id, {$set: body}, {new: true});
         } catch (error) {
             console.log(error);
             return error.message;

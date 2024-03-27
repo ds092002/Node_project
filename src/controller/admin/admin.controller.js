@@ -9,6 +9,10 @@ exports.registerAdmin = async(req, res) => {
         console.log(admin);
         if(admin){
             return res.status(400).json({ message: `Admin is Already Registerd...👍🏻`});
+        };
+        if(req.file){
+            console.log(req.file);
+            req.body.productImage = req.file.path.replace('\\','/');
         }
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
         console.log(hashPassword);
