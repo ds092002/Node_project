@@ -9,7 +9,11 @@ exports.registerUser = async(req, res) => {
         console.log(user);
         if(user){
             return res.status(400).json({ message: `User is Already Registered....👍🏻`});
-        }
+        };
+        if(req.file){
+            console.log(req.file);
+            req.body.profileImage = req.file.path.replace(/\\/g,"/");
+        };
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
         console.log(hashPassword);
         user = await userService.addNewUser({

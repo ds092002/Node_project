@@ -25,7 +25,10 @@ exports.addToFavorite = async (req, res) => {
 
 exports.getAllFavorite = async (req, res) => {
     try {
-        let favorite = await favoriteService.getAllFavorite(req.query);
+        let favorite = await favoriteService.getAllFavorite({isDelete: false});
+        if (!favorite) {
+            res.status(404).json({message: 'No data found.'});
+        }
         res.status(200).json(favorite);
     } catch (error) {
         console.log(error);

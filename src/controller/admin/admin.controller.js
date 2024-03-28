@@ -12,8 +12,8 @@ exports.registerAdmin = async(req, res) => {
         };
         if(req.file){
             console.log(req.file);
-            req.body.productImage = req.file.path.replace('\\','/');
-        }
+            req.body.profileImage = req.file.path.replace(/\\/g,"/");
+        };
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
         console.log(hashPassword);
         admin = await userService.addNewUser({

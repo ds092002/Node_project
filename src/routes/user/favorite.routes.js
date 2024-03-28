@@ -9,7 +9,7 @@ const {
 } = require('../../controller/user/favorite.controller')
 
 favoriteRoutes.post('/add-To-Favorite', userVerifyToken, addToFavorite);
-favoriteRoutes.post('/get-All-Favorites', userVerifyToken, getAllFavorite);
-favoriteRoutes.post('/delete-Favorite', userVerifyToken, deleteFavorite);
+favoriteRoutes.get('/get-All-Favorites', userVerifyToken, getAllFavorite);
+favoriteRoutes.delete('/delete-Favorite', userVerifyToken, deleteFavorite);
 
 module.exports = favoriteRoutes;

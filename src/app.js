@@ -7,9 +7,11 @@ const morgan = require('morgan');
 const path = require('path');
 
 let imagePath = path.join(__dirname, 'public','images')
+let profileImageimagePath = path.join(__dirname, 'public','profile')
 app.use(express.json());
 app.use(morgan("dev"));
 app.use('/public/images', express.static(imagePath));
+app.use('/public/profile', express.static(profileImageimagePath));
 
 /*----------------Admin Routes----------------*/
 const adminRoutes = require('./routes/admin/index.routes');

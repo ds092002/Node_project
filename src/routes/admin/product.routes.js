@@ -1,6 +1,6 @@
 const express = require('express');
 const productRoutes = express.Router();
-const { adminVerifyToken } = require('../../helpers/adminVerifyToken');
+const { adminVerifyToken } = require('../../helpers/userVerifyToken');
 const {
     addNewProduct,
     getAllProducts,

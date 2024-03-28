@@ -10,8 +10,9 @@ const {
     deleteUser,
     updatePassword
 } = require('../../controller/user/user.controller');
+const { upload } = require('../../helpers/imageUpload');
 
-userRoute.post('/register-User',registerUser);
+userRoute.post('/register-User',upload.single('profileImage'),registerUser);
 userRoute.post('/login-User',loginUser);
 userRoute.get('/get-All-User',userVerifyToken, getAllUser);
 userRoute.get('/get-User',userVerifyToken, getUser);

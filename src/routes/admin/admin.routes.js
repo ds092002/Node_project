@@ -1,6 +1,6 @@
 const express = require('express');
 const userRoutes = express.Router();
-const { adminVerifyToken } = require('../../helpers/adminVerifyToken');
+const { adminVerifyToken } = require('../../helpers/userVerifyToken');
 const {
     registerAdmin,
     loginAdmin,
@@ -10,8 +10,9 @@ const {
     deleteAdmin,
     updatePassword
 } = require('../../controller/admin/admin.controller');
+const { upload } = require('../../helpers/imageUpload');
 
-userRoutes.post('/register-Admin',registerAdmin);
+userRoutes.post('/register-Admin', upload.single('profileImage'),registerAdmin);
 userRoutes.post('/login-Admin',loginAdmin);
 userRoutes.get('/get-All-Admin',adminVerifyToken, getAllAdmin);
 userRoutes.get('/get-Admin',adminVerifyToken, getAdmin);
