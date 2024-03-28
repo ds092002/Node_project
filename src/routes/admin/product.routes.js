@@ -1,6 +1,5 @@
 const express = require('express');
 const productRoutes = express.Router();
-
 const { adminVerifyToken } = require('../../helpers/adminVerifyToken');
 const {
     addNewProduct,
@@ -9,8 +8,9 @@ const {
     updateProduct,
     deleteProduct
 } = require('../../controller/admin/product.controller');
+const { upload } = require('../../helpers/imageUpload');
 
-productRoutes.post('/add-Product', addNewProduct);
+productRoutes.post('/add-Product', upload.single('productImage'),addNewProduct);
 productRoutes.get('/get-All-Products', adminVerifyToken, getAllProducts);
 productRoutes.get('/get-Product', adminVerifyToken, getProduct);
 productRoutes.put('/update-Product', adminVerifyToken, updateProduct);

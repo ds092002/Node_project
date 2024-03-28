@@ -79,6 +79,7 @@ exports.getAdmin = async(req, res) => {
 exports.updateAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
+        console.log(admin);
         if(!admin){
             return res.status(404).json({ message: `Admin Not Found.` });
         }

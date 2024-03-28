@@ -3,9 +3,13 @@ require('dotenv').config();
 const app = express();
 const mongoose = require('mongoose');
 const port = process.env.PORT;
+const morgan = require('morgan');
+const path = require('path');
 
-
+let imagePath = path.join(__dirname, 'public','images')
 app.use(express.json());
+app.use(morgan("dev"));
+app.use('/public/images', express.static(imagePath));
 
 /*----------------Admin Routes----------------*/
 const adminRoutes = require('./routes/admin/index.routes');

@@ -63,11 +63,11 @@ exports.getCart = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
     try {
-        let cart = await cartService.getCart({_id: req.query.cartId});
+        let cart = await cartService.getCart({_id: req.query.cartId, isDelete: false});
         if (!cart) {
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
-        cart = await cartService.updateCart(cart._id, {$set: { ...req.body}});
+        cart = await cartService.updateCart(cart._id, { ...req.body});
         res.status(202).json({ cart, message: `Cart Item Updated SuccessFully.....`});
     } catch (error) {
         console.log(error);
