@@ -12,9 +12,9 @@ const userSchema = mongoose.Schema({
         enum: ['Male','Female']
     },
     email: {
-        type: String,       // For same data is not allowed
+        type: String,       
         required: true,     // For Compulsory requirement in data
-        unique: true
+        unique: true        // For same data is not allowed
     },
     profileImage: {
         type: String

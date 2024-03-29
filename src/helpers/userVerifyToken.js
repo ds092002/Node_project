@@ -9,14 +9,14 @@ exports.userVerifyToken = async(req, res, next) => {
              return res.json({ message: `Invalid Authorization ${console.error()}`});
        }
        let token = authorization.split(" ")[1];
-       console.log(token);
+    //    console.log(token);
        if (token === undefined) {
            return res.status(401).json({ message: `Unauthorize ${console.error()}`})
        }else{
             let {userId} = jwt.verify(token, 'User');
-            console.log(userId);
+            // console.log(userId);
             let user = await User.findById(userId);
-            console.log(user);
+            // console.log(user);
             if (user) {
                 req.user = user;
                 next();
@@ -38,14 +38,14 @@ exports.adminVerifyToken = async(req, res, next) => {
             return res.json({ message: `Invalid Authorization ${console.error()}`});
         }
         let token = authorization.split(" ")[1];
-        console.log(token);
+        // console.log(token);
         if (token === undefined) {
             return res.status(401).json({ message: `Unauthorize ${console.error()}`})
         }else{
             let {adminId} = jwt.verify(token, 'Admin');
-            console.log(adminId);
+            // console.log(adminId);
             let admin = await User.findById(adminId);
-            console.log(admin);
+            // console.log(admin);
             if (admin) {
                 req.admin = admin;
                 next();

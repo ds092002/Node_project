@@ -8,7 +8,7 @@ exports.addNewOrder = async(req, res) => {
         let cartItems = await cartService.getAllCart(req.query, req.user);
         // console.log(cartItems);
         if (cartItems.length === 0) {
-            res.status(404).json({ message: `Cart Not Found..Plase Try Again...`});
+            res.status(404).json({ message: `Cart Not Found..Please Try Again...`});
         }
         // console.log(cartItems);
         let orderItems = await cartItems.map(item => ({
@@ -34,8 +34,8 @@ exports.addNewOrder = async(req, res) => {
 
 exports.getAllOrders = async (req, res) => {
     try {
-        let orders = await orderServiece.getAllOrders({ user: req.user._id,  isDelete: false });
-        console.log(orders);
+        let orders = await orderService.getAllOrders({ isDelete: false });
+        // console.log(orders);
         if (!orders) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
         }
@@ -49,7 +49,7 @@ exports.getAllOrders = async (req, res) => {
 exports.getOrder = async (req, res) => {
     try {
         let order = await orderServiece.getOrderById({_id: req.query.orderId, isDelete: false});
-        console.log(order);
+        // console.log(order);
         if (!order) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
         }
@@ -63,7 +63,7 @@ exports.getOrder = async (req, res) => {
 exports.deleteOrder = async (req, res) => {
     try {
         let order = await orderServiece.getOrder({_id: req.query.orderId});
-        console.log(order);
+        // console.log(order);
         if (!order) {
             res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
         }

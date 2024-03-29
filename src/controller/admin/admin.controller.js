@@ -6,16 +6,16 @@ const jwt = require('jsonwebtoken');
 exports.registerAdmin = async(req, res) => {
     try {
         let admin = await userService.getUser({ email: req.body.email });
-        console.log(admin);
+        // console.log(admin);
         if(admin){
             return res.status(400).json({ message: `Admin is Already Registerd...👍🏻`});
         };
         if(req.file){
-            console.log(req.file);
+            // console.log(req.file);
             req.body.profileImage = req.file.path.replace(/\\/g,"/");
         };
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
-        console.log(hashPassword);
+        // console.log(hashPassword);
         admin = await userService.addNewUser({
             ...req.body,
             password: hashPassword,
@@ -31,7 +31,7 @@ exports.registerAdmin = async(req, res) => {
 exports.loginAdmin = async(req, res) => {
     try {
         let admin = await userService.getUser({email: req.body.email, isDelete: false});
-        console.log(admin);
+        // console.log(admin);
         if (!admin) {
             return res.status(404).json({message:`Email Not Found..Please Check Your Email Address.`});
         }
@@ -40,7 +40,7 @@ exports.loginAdmin = async(req, res) => {
             return res.status(401).json({message: `Password is Not Match Please Enter Correct Password...`});
         }
         let token = jwt.sign({ adminId: admin._id}, 'Admin');
-        console.log(token);
+        // console.log(token);
         res.status(200).json({ token, message: `Login SuccesFully...👍🏻`});
     } catch (error) {
         console.log(error);
@@ -51,7 +51,7 @@ exports.loginAdmin = async(req, res) => {
 exports.getAllAdmin = async(req, res) => {
     try {
         let admin = await userService.getAllUsers({isDelete: false});
-        console.log(admin);
+        // console.log(admin);
         if(!admin){
             return res.status(404).json({ message: `Admin Data Not Found Please Try Again..!`});
         }
@@ -65,7 +65,7 @@ exports.getAllAdmin = async(req, res) => {
 exports.getAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
-        console.log(admin);
+        // console.log(admin);
         if (!admin) {
             return res.status(404).json({ message: "Admin not found." });
         }
@@ -79,7 +79,7 @@ exports.getAdmin = async(req, res) => {
 exports.updateAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
-        console.log(admin);
+        // console.log(admin);
         if(!admin){
             return res.status(404).json({ message: `Admin Not Found.` });
         }
@@ -107,35 +107,27 @@ exports.deleteAdmin = async(req, res) => {
 
 exports.updatePassword = async(req, res) => {
     try {
-        let admin = await userService.getUserById(req.query.adminId);
+        let admin = await userService.getUserById(req.user._id);
         if(!admin){
             return res.json({ message: `Admin Not Found....Please try again..`});
         }
-        let comparePassword = await bcryptjs.compare(req.body.oldPassword, req.admin.password);
-        let oldPassword = req.body.oldPassword;
-        if(!oldPassword){
-            return res.json({ message: `Old Password is not Found.. Please Try Again.`});
-        }
+        let comparePassword = await bcryptjs.compare(
+            req.body.oldPassword, 
+            admin.password
+        );
         if(!comparePassword){
             return res.json({ message: `Old Password is not match.. Please Try Again.`});
         }
         let newPassword = req.body.newPassword;
-        if(!newPassword){
-            return res.json({ message:`New Password is Not Found.`});
-        }
-        if(newPassword === oldPassword){
+        if(req.body.newPassword === req.body.oldPassword){
             return res.json({ message: `Old Password and New Password Are Same Please Enter Diffrent Password.`});
         }
-        let confirmPassword = req.body.confirmPassword;
-        if(!confirmPassword){
-            return res.json({ message:`Confirm Password is Not Found.`});
-        }
-        if(newPassword !== confirmPassword){
+        if(req.body.newPassword !== req.body.confirmPassword){
             return res.json({ message: `New Password and Confirm  Password are not same.` });
         }
         let hashPassword = await bcryptjs.hash(newPassword, 10);
         admin = await userService.updateUser(req.admin._id, { password: hashPassword});
-        res.status(200).json({ message: 'Password changed successfully.....👍🏻' });
+        res.status(200).json({asmin, message: 'Password changed successfully.....👍🏻' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: `Internal Server Error..${console.error()}`});

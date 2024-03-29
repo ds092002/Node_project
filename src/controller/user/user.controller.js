@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 exports.registerUser = async(req, res) => {
     try {
         let user = await userService.getUser({ email: req.body.email });
-        console.log(user);
+        // console.log(user);
         if(user){
             return res.status(400).json({ message: `User is Already Registered....👍🏻`});
         };
@@ -15,7 +15,7 @@ exports.registerUser = async(req, res) => {
             req.body.profileImage = req.file.path.replace(/\\/g,"/");
         };
         let hashPassword = await bcryptjs.hash(req.body.password, 10);
-        console.log(hashPassword);
+        // console.log(hashPassword);
         user = await userService.addNewUser({
             ...req.body,
             password: hashPassword
@@ -30,7 +30,7 @@ exports.registerUser = async(req, res) => {
 exports.loginUser = async(req, res) => {
     try {
         let user = await userService.getUser({ email: req.body.email, isDelete: false});
-        console.log(user);
+        // console.log(user);
         if(!user){
             return res.status(400).json({ message: `Email Not Found..Please Check Your Email Address.`});
         }
@@ -39,7 +39,7 @@ exports.loginUser = async(req, res) => {
             return res.status(401).json({ message: `Password is Not Match Please Enter Correct Password..`});
         }
         let token = jwt.sign({ userId: user._id}, 'User');
-        console.log(token);
+        // console.log(token);
         res.status(200).json({token, message: `Login SuccesFully..👍🏻`})
     } catch (error) {
         console.log(error);
@@ -50,7 +50,7 @@ exports.loginUser = async(req, res) => {
 exports.getAllUser = async(req, res) => {
     try {
         let users = await userService.getAllUsers({ isDelete: false});
-        console.log(users);
+        // console.log(users);
         if(!users){
             return res.status(404).json({ message: `Users Data Not Found Please Try Again..!`});
         }
@@ -67,7 +67,7 @@ exports.getUser = async(req, res) => {
         if(!user){
             return res.status(404).json({ message: `User Not Found....Please Try Again`});
         }
-        console.log(user);
+        // console.log(user);
         res.status(200).json(user);
     } catch (error) {
         console.log(error);
@@ -105,30 +105,21 @@ exports.deleteUser = async(req, res) => {
 
 exports.updatePassword = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.query.userId);
+        let user = await userService.getUserById(req.user_id);
         if(!user){
             return res.json({ message: `User Not Found...Please try Again...`});
         }
-        let comparePassword = await bcryptjs.compare(req.body.oldPassword, req.user.password);
-        let oldPassword = req.body.oldPassword;
-        if (!oldPassword) {
-            return res.json({ message: `Old Password is not Found.. Please Try Again.`});
-        }
+        let comparePassword = await bcryptjs.compare(
+            req.body.oldPassword, 
+            user.password
+        );
         if (!comparePassword) {
             return res.json({ message: `Old Password is not Match.. Please Try Again.`});
         }
-        let newPassword = req.body.newPassword;
-        if (!newPassword) {
-            return res.json({ message: `New Password is not Found.. Please Try Again.`});
-        }
-        if(newPassword === oldPassword){
+        if(req.body.newPassword === req.body.oldPassword){
             return res.json({ message: `Old Password And New Password Are Same Plase Enter Diffrent Password..`});
         }
-        let confirmPassword = req.body.confirmPassword;
-        if (!confirmPassword) {
-            return res.json({ message: `Confirm Password is not Found.. Please Try Again.`});
-        }
-        if(newPassword !== confirmPassword){
+        if(req.body.newPassword !== req.body.confirmPassword){
             return res.json({ message: `New Password And Confirm Password is not Same.. Please Try Again.`});
         }
         let hashPassword = await bcryptjs.hash(newPassword, 10);

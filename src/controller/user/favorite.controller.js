@@ -8,7 +8,7 @@ exports.addToFavorite = async (req, res) => {
             user: req.user._id,
             isDelete: false
         });
-        console.log(favorite);
+        // console.log(favorite);
         if (favorite) {
             return res.status(400).json({ message: `Product already in your favorite list.` });
         }

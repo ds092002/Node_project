@@ -40,9 +40,14 @@ module.exports = class ProductServices {
             ] : [];
             let find = [
                 { $match : { isDelete: false} },
-                ...categoryWise
+                ...categoryWise,
+                { $project: { 
+                    title: 1, 
+                    price: 1, 
+                    productImage: 1 
+                } }
             ];
-
+            
             let result = await Product.aggregate(find);
             return result;
 

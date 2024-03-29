@@ -19,7 +19,7 @@ exports.getProduct = async (req, res) => {
         let review = await reviewServiece.getAllReview(req.query.productId);
         let totalRating = review.reduce((total, item) => total + item.rating, 0);
         let avgRating = totalRating / review.length;
-        console.log(avgRating);
+        // console.log(avgRating);
         res.status(200).json({product, rating: avgRating});
     } catch (error) {
         console.log(error);
