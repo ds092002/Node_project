@@ -7,13 +7,17 @@ const orderSchema = mongoose.Schema({
     },
     items: [
         {
-            product: {
+            cartItem: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'products'
             },
             quantity: {
                 type: Number,
                 default: 1
+            },
+            price : {
+                type: Number,
+                default: 0
             }
         }
     ],

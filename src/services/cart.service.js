@@ -8,10 +8,25 @@ module.exports = class CartServices {
             return error.message;
         }
     };
-    async getAllCart(query) {
+    async getAllCart(query, user) {
         try {
+            let userCarts = query.me && query.me === 'true' ? [
+                {
+                    $match: { user: user._id, isDelete: false }
+                }
+            ] : [];
             let find = [
-                { $match: { isDelete: false}}
+                { $match: { isDelete: false } },
+                ...userCarts, //optional all cart 
+                {
+                    $lookup: {
+                        from: "products",
+                        localField: 'cartItem',
+                        foreignField: '_id',
+                        as: 'cartItem'
+                    }
+                },
+                { $set: { "cartItem": { $first: "$cartItem" } } } // unwind is also work
             ];
             let result = await Cart.aggregate(find);
             return result;
@@ -20,9 +35,9 @@ module.exports = class CartServices {
             return error.message;
         }
     };
-    async getCart(body) {
+    async getCart(query) {
         try {
-            return await Cart.findOne(body).populate('user').populate('cartItem');
+            return await Cart.findOne(query).populate('user').populate('cartItem');
         } catch (error) {
             console.log(error);
             return error.message;
@@ -30,7 +45,7 @@ module.exports = class CartServices {
     };
     async getCartById(id) {
         try {
-            return await Cart.findById(id).populate('user').populate('cartItem')        ;
+            return await Cart.findById(id).populate('user').populate('cartItem');
         } catch (error) {
             console.log(error);
             return error.message;
@@ -38,15 +53,15 @@ module.exports = class CartServices {
     };
     async updateCart(id, body) {
         try {
-            return await Cart.findByIdAndUpdate(id, {$set: body}, {new: true});
+            return await Cart.findByIdAndUpdate(id, { $set: body }, { new: true });
         } catch (error) {
             console.log(error);
             return error.message;
         }
     };
-    async updateMany (user, body) {
+    async updateMany(user, body) {
         try {
-            return await Cart.updateMany({ user: user}, { $set: body}, { new: true});
+            return await Cart.updateMany({ user: user._id }, { $set: body }, { new: true });
         } catch (error) {
             console.log(error);
             return error.message;
