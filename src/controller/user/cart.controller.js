@@ -15,7 +15,7 @@ exports.addToCart = async (req, res) => {
             user: req.user._id,
             ...req.body
         });
-        return res.status(201).json({cart, message: `New Item is Added To the Cart..`});
+        // return res.status(201).json({cart, message: `New Item is Added To the Cart..`});
     } catch (error) {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});

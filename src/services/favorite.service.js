@@ -10,10 +10,10 @@ module.exports = class FavoriteServices{
     };
     async getAllFavorite(body) {
         try {
-            // let find = [
-            //     { $match: { isDelete: false }}
-            // ];
-            let result = await Favorites.find(body).populate('product');
+            let find = [
+                { $match: { isDelete: false }}
+            ];
+            let result = await Favorites.find(body);
             return result;
         } catch (error) {
             console.log(error);
@@ -22,7 +22,7 @@ module.exports = class FavoriteServices{
     };
     async getFavorite(body) {
         try {
-            return await Favorites.findOne(body).populate('product');
+            return await Favorites.findOne(body);
         } catch (error) {
             console.log(error);
             return error.message;
@@ -30,7 +30,7 @@ module.exports = class FavoriteServices{
     };
     async getFavoriteById(id) {
         try {
-            return await Favorites.findById(id).populate('user').populate('product');
+            return await Favorites.findById(id);
         } catch (error) {
             console.log(error);
             return error.message;
@@ -38,7 +38,7 @@ module.exports = class FavoriteServices{
     };
     async updateFavorite(id, body) {
         try {
-            return await Favorites.findByIdAndUpdate(id, { $set: body}, { new: true }).populate('user').populate('items');
+            return await Favorites.findByIdAndUpdate(id, { $set: body}, { new: true });
         } catch (error) {
             console.log(error);
             return error.message;

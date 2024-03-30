@@ -50,7 +50,7 @@ exports.loginAdmin = async(req, res) => {
 
 exports.getAllAdmin = async(req, res) => {
     try {
-        let admin = await userService.getAllUsers({isDelete: false});
+        let admin = await userService.getAllUsers({isDelete: false, isAdmin: true});
         // console.log(admin);
         if(!admin){
             return res.status(404).json({ message: `Admin Data Not Found Please Try Again..!`});

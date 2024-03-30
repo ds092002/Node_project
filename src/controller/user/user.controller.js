@@ -49,7 +49,7 @@ exports.loginUser = async(req, res) => {
 
 exports.getAllUser = async(req, res) => {
     try {
-        let users = await userService.getAllUsers({ isDelete: false});
+        let users = await userService.getAllUsers({ isDelete: false, isAdmin: false});
         // console.log(users);
         if(!users){
             return res.status(404).json({ message: `Users Data Not Found Please Try Again..!`});
