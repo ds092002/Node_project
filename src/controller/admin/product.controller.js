@@ -1,6 +1,7 @@
 const ProductServieces = require('../../services/product.service');
 const productServiece = new ProductServieces();
 
+// Add New Product
 exports.addNewProduct = async (req, res) => {
     try {
         let product = await productServiece.getProduct({ title: req.body.title, isDelete: false });
@@ -19,6 +20,7 @@ exports.addNewProduct = async (req, res) => {
     }
 };
 
+//  Get All Products
 exports.getAllProducts = async (req, res) => {
     try {
         let products = await productServiece.getAllProducts({ isDelete: false});
@@ -29,6 +31,7 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+// Get One Product
 exports.getProduct = async (req, res) => {
     try {
         let product = await productServiece.getProductById(req.query.productId);
@@ -42,6 +45,7 @@ exports.getProduct = async (req, res) => {
     }
 };
 
+// Update Product detail
 exports.updateProduct = async (req, res) => {
     try {
         let product = await productServiece.getProductById(req.query.productId);
@@ -56,6 +60,7 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
+// Delete Product
 exports.deleteProduct = async (req, res) => {
     try {
         let product = await productServiece.getProductById(req.query.productId);
@@ -63,6 +68,7 @@ exports.deleteProduct = async (req, res) => {
             res.status(404).json({ message: `Product is not found...`});
         }
         product = await productServiece.updateProduct(product._id, {isDelete: true });
+        res.status(202).json({product, message: `Product has been deleted successfully.`});
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: `Internal Server Error..`});

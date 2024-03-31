@@ -3,6 +3,7 @@ const userService = new UserServices();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Register a new user
 exports.registerUser = async(req, res) => {
     try {
         let user = await userService.getUser({ email: req.body.email });
@@ -27,6 +28,7 @@ exports.registerUser = async(req, res) => {
     }
 };
 
+// Login A User
 exports.loginUser = async(req, res) => {
     try {
         let user = await userService.getUser({ email: req.body.email, isDelete: false});
@@ -47,6 +49,7 @@ exports.loginUser = async(req, res) => {
     }
 };
 
+// Get All Users
 exports.getAllUser = async(req, res) => {
     try {
         let users = await userService.getAllUsers({ isDelete: false, isAdmin: false});
@@ -61,6 +64,7 @@ exports.getAllUser = async(req, res) => {
     }
 };
 
+// Get One user
 exports.getUser = async(req, res) => {
     try {
         let user = await userService.getUserById(req.query.userId);
@@ -75,6 +79,7 @@ exports.getUser = async(req, res) => {
     }
 };
 
+// Update User 
 exports.updateUser = async(req, res) => {
     try {
         let user = await userService.getUserById(req.query.userId);
@@ -89,6 +94,7 @@ exports.updateUser = async(req, res) => {
     }
 };
 
+// Delete User
 exports.deleteUser = async(req, res) => {
     try {
         let user = await userService.getUserById(req.query.userId);
@@ -103,9 +109,10 @@ exports.deleteUser = async(req, res) => {
     }
 };
 
+// Change Password
 exports.updatePassword = async(req, res) => {
     try {
-        let user = await userService.getUserById(req.user_id);
+        let user = await userService.getUserById(req.user._id);
         if(!user){
             return res.json({ message: `User Not Found...Please try Again...`});
         }
@@ -122,9 +129,9 @@ exports.updatePassword = async(req, res) => {
         if(req.body.newPassword !== req.body.confirmPassword){
             return res.json({ message: `New Password And Confirm Password is not Same.. Please Try Again.`});
         }
-        let hashPassword = await bcryptjs.hash(newPassword, 10);
+        let hashPassword = await bcryptjs.hash(req.body.newPassword, 10);
         user = await userService.updateUser(req.user._id, {password: hashPassword});
-        res.status(200).json({ message: 'Password changed successfully.....👍🏻' });
+        res.status(200).json({user, message: 'Password changed successfully.....👍🏻' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: `Internal Server Error..${console.error()}`});

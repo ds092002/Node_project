@@ -1,5 +1,7 @@
 const Favorites = require('../model/favorite.model');
 module.exports = class FavoriteServices{
+
+    // Add a new favorite to the database 
     async addToFavorite(body) {
         try {
             return await Favorites.create(body);
@@ -8,6 +10,7 @@ module.exports = class FavoriteServices{
             return error.message; 
         }
     };
+    // Get All Favorites
     async getAllFavorite(body) {
         try {
             let find = [
@@ -20,6 +23,7 @@ module.exports = class FavoriteServices{
             return error.message;
         }
     };
+    //  Find one favorite
     async getFavorite(body) {
         try {
             return await Favorites.findOne(body);
@@ -28,6 +32,7 @@ module.exports = class FavoriteServices{
             return error.message;
         }
     };
+    // Find One favorite By Id
     async getFavoriteById(id) {
         try {
             return await Favorites.findById(id);
@@ -36,6 +41,7 @@ module.exports = class FavoriteServices{
             return error.message;
         }
     };
+    // Update Favorite 
     async updateFavorite(id, body) {
         try {
             return await Favorites.findByIdAndUpdate(id, { $set: body}, { new: true });

@@ -1,5 +1,6 @@
 const Product = require('../model/product.model');
 module.exports = class ProductServices {
+
     // Add New Product
     async addNewProduct(body) {
         try {
@@ -9,6 +10,7 @@ module.exports = class ProductServices {
             return error.message;
         }
     };
+    // Get Product
     async getProduct(body) {
         try {
             return await Product.findOne(body);      
@@ -17,6 +19,7 @@ module.exports = class ProductServices {
             return error.message;
         }
     };
+    // Get One Product By Id
     async getProductById(id) {
         try {
             return await Product.findById(id);
@@ -25,6 +28,7 @@ module.exports = class ProductServices {
             return error.message;
         }
     };
+    // Update Product
     async updateProduct(id, body) {
         try {
             return await Product.findByIdAndUpdate(id, { $set: body} , { new : true });
@@ -33,6 +37,7 @@ module.exports = class ProductServices {
             return error.message;
         }
     };
+    // Get All Product Detils
     async getAllProducts(query) {
         try {
             let categoryWise = query.category && query.category !=="" ? [

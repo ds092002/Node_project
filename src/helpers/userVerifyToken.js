@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../model/user.model');
 // const {token} =  require('morgan');
 
+// User VerifyToken
 exports.userVerifyToken = async(req, res, next) => {
     try {
        const authorization = req.headers['authorization'];

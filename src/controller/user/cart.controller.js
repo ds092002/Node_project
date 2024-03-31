@@ -1,6 +1,7 @@
 const CartServices = require('../../services/cart.service');
 const cartService = new CartServices();
 
+// Add product in the shopping in Cart
 exports.addToCart = async (req, res) => {
     try {
         let cart = await cartService.getCart({
@@ -8,20 +9,22 @@ exports.addToCart = async (req, res) => {
             cartItem: req.body.cartItem,
             isDelete: false
         });
+        // console.log(cart);
         if(cart){
-            return res.json({message:"This item already in your cart"});
+            return res.status(400).json({message:"This item already in your cart"});
         }
         cart = await cartService.addToCart({
             user: req.user._id,
             ...req.body
         });
-        // return res.status(201).json({cart, message: `New Item is Added To the Cart..`});
+        return res.status(201).json({cart, message: `New Item is Added To the Cart..`});
     } catch (error) {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});
     }
 };
 
+// Get All Carts
 exports.getAllCarts = async (req, res) => {
     try {
         let carts = await cartService.getAllCart({
@@ -45,6 +48,7 @@ exports.getAllCarts = async (req, res) => {
     }
 };
 
+// Get One Cart
 exports.getCart = async (req, res) => {
     try {
         let cart = await cartService.getCartById({
@@ -61,6 +65,7 @@ exports.getCart = async (req, res) => {
     }
 };
 
+// Update Cart
 exports.updateCart = async (req, res) => {
     try {
         let cart = await cartService.getCart({_id: req.query.cartId, isDelete: false});
@@ -75,14 +80,15 @@ exports.updateCart = async (req, res) => {
     }
 };
 
+// Delete Cart
 exports.deleteCart = async (req, res) => {
     try {
-        let cart = await cartService.getCart({_id: req.query.cartId});
+        let cart = await cartService.getCart({_id:req.query.cartId});
         if(!cart){
             return res.status(404).json({ message: `No Cart Found with this ID`});
         }
-        cart = await cartService.updateCart(cart._id,req.body ,{isDelete : true});
-        res.status(200).json({message:`Cart Deleted Successfully......`}); 
+        cart = await cartService.updateCart(cart._id,{isDelete : true});
+        res.status(200).json({cart,message:`Cart Deleted Successfully......`}); 
     } catch (error) {
         console.log(error);
         res.status(401).json({ message: `Internal Server Error... ${console.error()}`});

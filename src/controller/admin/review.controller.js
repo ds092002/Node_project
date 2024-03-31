@@ -1,9 +1,10 @@
 const ReviewServices = require('../../services/review.service');
 const reviewService = new ReviewServices();
 
+// Get All Review
 exports.getAllReview = async (req, res) => {
     try {
-        // let review = await reviewService.getAllReview({isDelete: false});
+        let review = await reviewService.getAllReview({isDelete: false});
         if (!review) {
             return res.status(404).json({ message: `Review Not Found....`});
         }
@@ -14,6 +15,7 @@ exports.getAllReview = async (req, res) => {
     }
 };
 
+// Delete Review
 exports.deleteReview = async (req, res) => {
     try {
         let review = await reviewService.getReviewById(req.query.reviewId);

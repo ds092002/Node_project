@@ -3,6 +3,7 @@ const userService = new UserServices();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+// Register a new user
 exports.registerAdmin = async(req, res) => {
     try {
         let admin = await userService.getUser({ email: req.body.email });
@@ -28,6 +29,7 @@ exports.registerAdmin = async(req, res) => {
     } 
 };
 
+//  Login an existing admin
 exports.loginAdmin = async(req, res) => {
     try {
         let admin = await userService.getUser({email: req.body.email, isDelete: false});
@@ -48,6 +50,7 @@ exports.loginAdmin = async(req, res) => {
     }
 };
 
+//  Get all Admin data
 exports.getAllAdmin = async(req, res) => {
     try {
         let admin = await userService.getAllUsers({isDelete: false, isAdmin: true});
@@ -62,6 +65,7 @@ exports.getAllAdmin = async(req, res) => {
     }
 };
 
+// Get One Admin Data
 exports.getAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
@@ -76,6 +80,7 @@ exports.getAdmin = async(req, res) => {
     }
 };
 
+//  Update the Admin Profile
 exports.updateAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
@@ -91,6 +96,7 @@ exports.updateAdmin = async(req, res) => {
     }
 };
 
+//  Delete an Admin Account
 exports.deleteAdmin = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.query.adminId);
@@ -105,9 +111,10 @@ exports.deleteAdmin = async(req, res) => {
     }
 };
 
+// Change Password
 exports.updatePassword = async(req, res) => {
     try {
-        let admin = await userService.getUserById(req.user._id);
+        let admin = await userService.getUserById(req.admin._id);
         if(!admin){
             return res.json({ message: `Admin Not Found....Please try again..`});
         }
@@ -118,16 +125,15 @@ exports.updatePassword = async(req, res) => {
         if(!comparePassword){
             return res.json({ message: `Old Password is not match.. Please Try Again.`});
         }
-        let newPassword = req.body.newPassword;
         if(req.body.newPassword === req.body.oldPassword){
             return res.json({ message: `Old Password and New Password Are Same Please Enter Diffrent Password.`});
         }
         if(req.body.newPassword !== req.body.confirmPassword){
             return res.json({ message: `New Password and Confirm  Password are not same.` });
         }
-        let hashPassword = await bcryptjs.hash(newPassword, 10);
+        let hashPassword = await bcryptjs.hash(req.body.newPassword, 10);
         admin = await userService.updateUser(req.admin._id, { password: hashPassword});
-        res.status(200).json({asmin, message: 'Password changed successfully.....👍🏻' });
+        res.status(200).json({admin, message: 'Password changed successfully.....👍🏻' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: `Internal Server Error..${console.error()}`});

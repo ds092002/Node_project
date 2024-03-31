@@ -1,6 +1,7 @@
 const FavoriteServices = require('../../services/favorite.service');
 const favoriteService = new FavoriteServices();
 
+// Add Product In Favorite List
 exports.addToFavorite = async (req, res) => {
     try {
         let favorite = await favoriteService.getFavorite({
@@ -23,6 +24,7 @@ exports.addToFavorite = async (req, res) => {
     }
 };
 
+// Get All Favorite List
 exports.getAllFavorite = async (req, res) => {
     try {
         let favorite = await favoriteService.getAllFavorite({isDelete: false});
@@ -36,14 +38,15 @@ exports.getAllFavorite = async (req, res) => {
     }
 };
 
+// Remove From Favorite List
 exports.deleteFavorite = async (req, res) => {
     try {
-        let favorite = await favoriteService.getFavorite({_id:req.query.favoriteId, isDelete: false});
+        let favorite = await favoriteService.getFavorite(req.query.Id);
         if(!favorite){
             return res.status(404).json({message:"Favorite not found."});
         }
         console.log(favorite);
-        favorite = await favoriteService.updateFavorite(req.query.favoriteId, {isDelete: true});
+        favorite = await favoriteService.updateFavorite(favorite._id, {isDelete: true});
         res.status(201).json({ favorite, message: `Favorite Item is Deleted Successfully..`});
     } catch (error) {
         console.log(error);

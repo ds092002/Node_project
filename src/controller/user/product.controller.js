@@ -3,6 +3,7 @@ const productServiece = new ProductServieces();
 const ReviewServices = require('../../services/review.service');
 const reviewServiece = new ReviewServices();
 
+// Get All Products Details
 exports.getAllProducts = async (req, res) => {
     try {
         let product = await productServiece.getAllProducts({ isDelete : false});
@@ -13,6 +14,7 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+// Get One Product Detail
 exports.getProduct = async (req, res) => {
     try {
         let product = await productServiece.getProductById(req.query.productId);

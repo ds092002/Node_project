@@ -1,5 +1,7 @@
 const Cart = require('../model/cart.model');
 module.exports = class CartServices {
+
+    //  Add item to cart
     async addToCart(body) {
         try {
             return await Cart.create(body);
@@ -8,6 +10,7 @@ module.exports = class CartServices {
             return error.message;
         }
     };
+    //  Get all items in the cart by user
     async getAllCart(query, user) {
         try {
             let userCarts = query.me && query.me === 'true' ? [
@@ -35,6 +38,7 @@ module.exports = class CartServices {
             return error.message;
         }
     };
+    // Get Cart
     async getCart(query) {
         try {
             return await Cart.findOne(query).populate('user').populate('cartItem');
@@ -43,6 +47,7 @@ module.exports = class CartServices {
             return error.message;
         }
     };
+    // Get Cart By Id
     async getCartById(id) {
         try {
             return await Cart.findById(id).populate('user').populate('cartItem');
@@ -51,6 +56,7 @@ module.exports = class CartServices {
             return error.message;
         }
     };
+    // Update Cart
     async updateCart(id, body) {
         try {
             return await Cart.findByIdAndUpdate(id, { $set: body }, { new: true });

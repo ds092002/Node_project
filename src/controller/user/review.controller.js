@@ -1,6 +1,7 @@
 const ReviewServices = require('../../services/review.service');
 const reviewService = new ReviewServices();
 
+// Add review and rating on product
 exports.addReview = async (req, res) => {
     try {
         let review = await reviewService.getReview({
@@ -19,6 +20,7 @@ exports.addReview = async (req, res) => {
     }
 };
 
+// Get all Reviews
 exports.getAllReview = async (req, res) => {
     try {
         let review = await reviewService.getAllReview({isDelete: false});
@@ -32,6 +34,7 @@ exports.getAllReview = async (req, res) => {
     }
 };
 
+// Get One Review
 exports.getReview = async (req, res) => {
     try {
         let review = await reviewService.getReviewById(req.query.Id);
@@ -45,6 +48,7 @@ exports.getReview = async (req, res) => {
     }
 };
 
+// Update review
 exports.updateReview = async (req, res) => {
     try {
         let review = await reviewService.getReviewById(req.query.Id);
@@ -59,6 +63,7 @@ exports.updateReview = async (req, res) => {
     }
 };
 
+// Delete Review
 exports.deleteReview = async (req, res) => {
     try {
         let review = await reviewService.getReviewById(req.query.Id);
