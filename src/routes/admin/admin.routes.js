@@ -16,7 +16,7 @@ userRoutes.post('/register-Admin', upload.single('profileImage'),registerAdmin);
 userRoutes.post('/login-Admin',loginAdmin);
 userRoutes.get('/get-All-Admin',adminVerifyToken, getAllAdmin);
 userRoutes.get('/get-Admin',adminVerifyToken, getAdmin);
-userRoutes.put('/update-Admin/',adminVerifyToken, updateAdmin);
+userRoutes.put('/update-Admin',adminVerifyToken, updateAdmin);
 userRoutes.delete('/delete-Admin',adminVerifyToken, deleteAdmin);
 userRoutes.put('/update-Password',adminVerifyToken, updatePassword);
 
