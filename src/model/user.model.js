@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,       
         required: true,     // For Compulsory requirement in data
-        unique: true        // For same data is not allowed
+        unique: true// For Compulsory requirement in data// For Compulsory requirement in data
     },
     profileImage: {
         type: String
