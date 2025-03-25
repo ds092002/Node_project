@@ -116,20 +116,20 @@ exports.updatePassword = async(req, res) => {
     try {
         let admin = await userService.getUserById(req.admin._id);
         if(!admin){
-            return res.json({ message: `Admin Not Found....Please try again..`});
+            return res.status(404).json({ message: `Admin Not Found....Please try again..`});
         }
         let comparePassword = await bcryptjs.compare(
             req.body.oldPassword, 
             admin.password
         );
         if(!comparePassword){
-            return res.json({ message: `Old Password is not match.. Please Try Again.`});
+            return res.status(404).json({ message: `Old Password is not match.. Please Try Again.`});
         }
         if(req.body.newPassword === req.body.oldPassword){
-            return res.json({ message: `Old Password and New Password Are Same Please Enter Diffrent Password.`});
+            return res.status(404).json({ message: `Old Password and New Password Are Same Please Enter Diffrent Password.`});
         }
         if(req.body.newPassword !== req.body.confirmPassword){
-            return res.json({ message: `New Password and Confirm  Password are not same.` });
+            return res.status(404).json({ message: `New Password and Confirm  Password are not same.` });
         }
         let hashPassword = await bcryptjs.hash(req.body.newPassword, 10);
         admin = await userService.updateUser(req.admin._id, { password: hashPassword});
