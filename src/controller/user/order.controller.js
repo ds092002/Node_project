@@ -39,7 +39,7 @@ exports.getAllOrders = async (req, res) => {
         let orders = await orderService.getAllOrders({ isDelete: false });
         // console.log(orders);
         if (!orders) {
-            res.status(404).json({ message: `Orders Not Found..Plase Try Again...`});
+            res.status(404).json({ message: `Orders Not Found..Please Try Again...`});
         }
         res.status(200).json(orders);
     } catch (error) {
